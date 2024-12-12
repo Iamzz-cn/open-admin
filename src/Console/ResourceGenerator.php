@@ -15,8 +15,8 @@ class ResourceGenerator
      * @var array
      */
     protected $formats = [
-        'form_field'  => "\$form->%s('%s', __('%s'))",
-        'show_field'  => "\$show->field('%s', __('%s'))",
+        'form_field' => "\$form->%s('%s', __('%s'))",
+        'show_field' => "\$show->field('%s', __('%s'))",
         'grid_column' => "\$grid->column('%s', __('%s'))",
     ];
 
@@ -35,14 +35,14 @@ class ResourceGenerator
      * @var array
      */
     protected $fieldTypeMapping = [
-        'ip'          => 'ip',
-        'email'       => 'email|mail',
-        'password'    => 'password|pwd',
-        'url'         => 'url|link|src|href',
+        'ip' => 'ip',
+        'email' => 'email|mail',
+        'password' => 'password|pwd',
+        'url' => 'url|link|src|href',
         'phonenumber' => 'mobile|phone',
-        'color'       => 'color|rgb',
-        'image'       => 'image|img|avatar|pic|picture|cover',
-        'file'        => 'file|attachment',
+        'color' => 'color|rgb',
+        'image' => 'image|img|avatar|pic|picture|cover',
+        'file' => 'file|attachment',
     ];
 
     /**
@@ -207,19 +207,19 @@ class ResourceGenerator
     /**
      * Get columns of a giving model.
      *
+     * @return \Doctrine\DBAL\Schema\Column[]
      * @throws \Exception
      *
-     * @return \Doctrine\DBAL\Schema\Column[]
      */
     protected function getTableColumns()
     {
-        if (!$this->model->getConnection()->isDoctrineAvailable()) {
+        if (method_exists($this->model->getConnection(), 'isDoctrineAvailable') and !$this->model->getConnection()->isDoctrineAvailable()) {
             throw new \Exception(
                 'You need to require doctrine/dbal: ~2.3 in your own composer.json to get database columns. '
             );
         }
 
-        $table = $this->model->getConnection()->getTablePrefix().$this->model->getTable();
+        $table = $this->model->getConnection()->getTablePrefix() . $this->model->getTable();
         /** @var \Doctrine\DBAL\Schema\MySqlSchemaManager $schema */
         $schema = $this->model->getConnection()->getDoctrineSchemaManager($table);
 
